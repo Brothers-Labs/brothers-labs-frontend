@@ -1,0 +1,186 @@
+﻿{
+  "common": {
+    "lang": {
+      "pt": "PT",
+      "en": "EN"
+    }
+  },
+  "a11y": {
+    "mainNav": "Navegação principal",
+    "pageMenu": "Menu da página",
+    "languageSelector": "Seletor de idioma",
+    "switchLanguageTo": "Trocar idioma para",
+    "openMenu": "Abrir menu",
+    "heroSection": "Apresentação Brothers Labs",
+    "techStack": "Stack tecnológica",
+    "institutionalLinks": "Links institucionais",
+    "socialLinks": "Redes sociais"
+  },
+  "nav": {
+    "about": "Sobre",
+    "services": "Serviços",
+    "differentials": "Diferenciais",
+    "technologies": "Tecnologias",
+    "contact": "Contato"
+  },
+  "header": {
+    "contactSpecialists": "Falar com especialistas"
+  },
+  "hero": {
+    "eyebrow": "Engineering the next digital frontier",
+    "title": "Construímos produtos digitais premium com IA, arquitetura escalável e front-end de alto impacto.",
+    "description": "A Brothers Labs desenvolve sistemas sob medida e plataformas SaaS com excelência técnica, design sofisticado e foco em resultado real para empresas que querem liderar seus mercados.",
+    "ctaPrimary": "Iniciar projeto",
+    "ctaSecondary": "Explorar serviços",
+    "cardAiLabel": "IA aplicada",
+    "cardAiText": "Automação inteligente e analítica avançada",
+    "cardStackLabel": "Angular + Node.js",
+    "cardStackText": "Produtos robustos com performance enterprise"
+  },
+  "about": {
+    "kicker": "Sobre a empresa",
+    "title": "Tecnologia de ponta com execução de alto nível",
+    "description": "Somos uma software house orientada por produto, especializada em desenvolver soluções digitais escaláveis e modernas. Unimos engenharia, estratégia e design para transformar desafios complexos em plataformas com alto valor de negócio.",
+    "imageAlt": "Time da Brothers Labs em ambiente de alta tecnologia",
+    "highlights": {
+      "ai": {
+        "title": "IA aplicada ao negócio",
+        "description": "Criamos sistemas que utilizam inteligência artificial para aumentar eficiência, escala e vantagem competitiva."
+      },
+      "frontend": {
+        "title": "Front-end de alto desempenho",
+        "description": "Experiências digitais premium em Angular com foco em UX, acessibilidade e performance real."
+      },
+      "architecture": {
+        "title": "Arquitetura escalável",
+        "description": "Projetamos bases técnicas robustas para crescimento sustentável de produtos e plataformas SaaS."
+      }
+    }
+  },
+  "services": {
+    "kicker": "Serviços",
+    "title": "Soluções completas para produtos e operações digitais",
+    "items": {
+      "systems": {
+        "title": "Desenvolvimento de Sistemas",
+        "description": "Aplicações sob medida com regras de negócio complexas, integrações e visão de produto."
+      },
+      "ai": {
+        "title": "Soluções com Inteligência Artificial",
+        "description": "Automações inteligentes, copilotos corporativos e recursos de IA integrados ao fluxo operacional."
+      },
+      "angular": {
+        "title": "Aplicações Front-end com Angular",
+        "description": "Interfaces de alto impacto visual e técnico com componentização, design system e manutenção previsível."
+      },
+      "node": {
+        "title": "APIs e Back-end com Node.js",
+        "description": "Serviços escaláveis, seguros e observáveis para sustentar produtos digitais com confiabilidade."
+      },
+      "architecture": {
+        "title": "Arquitetura de Software",
+        "description": "Definição de padrões, governança técnica e estratégias para evolução contínua do ecossistema."
+      },
+      "saas": {
+        "title": "Plataformas SaaS",
+        "description": "Construção de produtos SaaS prontos para crescimento, monetização e operação em larga escala."
+      }
+    }
+  },
+  "differentials": {
+    "kicker": "Diferenciais",
+    "title": "Por que empresas escolhem a Brothers Labs",
+    "imageAlt": "Equipe Brothers Labs em planejamento de soluções de alto impacto",
+    "items": {
+      "modern": {
+        "title": "Tecnologia moderna e comprovada",
+        "description": "Stack atualizado com Angular, TypeScript, Node.js e boas práticas de engenharia de software."
+      },
+      "scale": {
+        "title": "Escalabilidade desde o primeiro sprint",
+        "description": "Arquitetamos com visão de longo prazo para evitar retrabalho e facilitar expansão de produto."
+      },
+      "performance": {
+        "title": "Performance como requisito central",
+        "description": "Otimizamos experiência, tempo de resposta e consumo de recursos para resultados mensuráveis."
+      },
+      "design": {
+        "title": "Design premium orientado à conversão",
+        "description": "Unimos estética sofisticada com clareza narrativa para elevar percepção de valor da marca."
+      },
+      "innovation": {
+        "title": "Inovação contínua com IA",
+        "description": "Incorporamos inteligência artificial de forma estratégica para acelerar processos e decisão."
+      },
+      "multiple": {
+        "title": "Atuação em múltiplos segmentos",
+        "description": "Experiência em diferentes mercados para desenhar soluções aderentes ao contexto de cada negócio."
+      }
+    }
+  },
+  "metrics": {
+    "kicker": "Indicadores",
+    "title": "Resultados que refletem maturidade técnica",
+    "items": {
+      "projects": {
+        "label": "Projetos entregues",
+        "description": "Implementações orientadas a resultado em diferentes estágios de maturidade digital."
+      },
+      "stack": {
+        "label": "Tecnologias dominadas",
+        "description": "Capacidade técnica ampla para composição de arquiteturas modernas e eficientes."
+      },
+      "uptime": {
+        "label": "Estabilidade operacional",
+        "description": "Confiabilidade alta em sistemas críticos com foco em continuidade e resiliência."
+      },
+      "acceleration": {
+        "label": "Aceleração de entrega",
+        "description": "Fluxos de desenvolvimento que reduzem time-to-market sem sacrificar qualidade."
+      }
+    }
+  },
+  "technologies": {
+    "kicker": "Tecnologias",
+    "title": "Stack moderna para produtos de alto desempenho",
+    "items": {
+      "angular": { "name": "Angular", "category": "Front-end" },
+      "typescript": { "name": "TypeScript", "category": "Linguagem" },
+      "node": { "name": "Node.js", "category": "Back-end" },
+      "ai": { "name": "Inteligência Artificial", "category": "Inovação" },
+      "apis": { "name": "APIs REST", "category": "Integrações" },
+      "html": { "name": "HTML5", "category": "Markup" },
+      "css": { "name": "CSS3 Avançado", "category": "UI Engineering" },
+      "architecture": { "name": "Arquitetura Escalável", "category": "Engineering" }
+    }
+  },
+  "cta": {
+    "kicker": "Vamos construir o próximo case de sucesso",
+    "title": "Transforme sua visão em um produto digital de classe global.",
+    "description": "Entre em contato e desenhe com a Brothers Labs uma estratégia tecnológica premium para crescer com previsibilidade.",
+    "button": "Solicitar diagnóstico estratégico",
+    "imageAlt": "Ambiente tecnológico moderno representando inovação digital"
+  },
+  "footer": {
+    "description": "Desenvolvimento de sistemas, inteligência artificial e plataformas digitais premium.",
+    "whatsappLabel": "WhatsApp",
+    "copyright": "© {{year}} Brothers Labs. Todos os direitos reservados."
+  },
+  "contactModal": {
+    "title": "Solicitar diagnóstico estratégico",
+    "subtitle": "Preencha os dados abaixo e vamos preparar o contato inicial com a Brothers Labs.",
+    "close": "Fechar modal de contato",
+    "nameLabel": "Nome",
+    "namePlaceholder": "Seu nome completo",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "voce@empresa.com",
+    "phoneLabel": "Telefone",
+    "phonePlaceholder": "+55 (47) 99771-6565",
+    "messageLabel": "Mensagem",
+    "messagePlaceholder": "Conte o desafio, objetivo e prazo estimado do projeto.",
+    "submit": "Enviar por e-mail",
+    "requiredError": "Preencha todos os campos obrigatórios.",
+    "invalidEmailError": "Informe um e-mail válido.",
+    "emailSubject": "Contato pelo site - Brothers Labs"
+  }
+}

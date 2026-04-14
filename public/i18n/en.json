@@ -1,0 +1,182 @@
+﻿{
+  "common": {
+    "lang": {
+      "pt": "PT",
+      "en": "EN"
+    }
+  },
+  "a11y": {
+    "mainNav": "Main navigation",
+    "pageMenu": "Page menu",
+    "languageSelector": "Language selector",
+    "switchLanguageTo": "Switch language to",
+    "openMenu": "Open menu",
+    "heroSection": "Brothers Labs introduction",
+    "techStack": "Technology stack",
+    "institutionalLinks": "Institutional links",
+    "socialLinks": "Social links"
+  },
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "differentials": "Differentials",
+    "technologies": "Technologies",
+    "contact": "Contact"
+  },
+  "header": {
+    "contactSpecialists": "Talk to specialists"
+  },
+  "hero": {
+    "eyebrow": "Engineering the next digital frontier",
+    "title": "We build premium digital products with AI, scalable architecture, and high-impact front-end engineering.",
+    "description": "Brothers Labs develops custom systems and SaaS platforms with technical excellence, sophisticated design, and a strong focus on measurable outcomes for companies that want to lead their markets.",
+    "ctaPrimary": "Start project",
+    "ctaSecondary": "Explore services",
+    "cardAiLabel": "Applied AI",
+    "cardAiText": "Intelligent automation and advanced analytics",
+    "cardStackLabel": "Angular + Node.js",
+    "cardStackText": "Robust products with enterprise-grade performance"
+  },
+  "about": {
+    "kicker": "About the company",
+    "title": "Cutting-edge technology with top-tier execution",
+    "description": "We are a product-oriented software house specialized in building modern and scalable digital solutions. We combine engineering, strategy, and design to transform complex challenges into platforms with strong business value.",
+    "imageAlt": "Brothers Labs team in a high-tech environment",
+    "highlights": {
+      "ai": {
+        "title": "AI applied to business",
+        "description": "We build systems that use artificial intelligence to increase efficiency, scalability, and competitive advantage."
+      },
+      "frontend": {
+        "title": "High-performance front-end",
+        "description": "Premium digital experiences in Angular with a focus on UX, accessibility, and real performance."
+      },
+      "architecture": {
+        "title": "Scalable architecture",
+        "description": "We design robust technical foundations for sustainable growth of products and SaaS platforms."
+      }
+    }
+  },
+  "services": {
+    "kicker": "Services",
+    "title": "Complete solutions for digital products and operations",
+    "items": {
+      "systems": {
+        "title": "Systems Development",
+        "description": "Custom applications with complex business rules, integrations, and a product-driven approach."
+      },
+      "ai": {
+        "title": "Artificial Intelligence Solutions",
+        "description": "Intelligent automations, corporate copilots, and AI features integrated into operational flows."
+      },
+      "angular": {
+        "title": "Angular Front-end Applications",
+        "description": "High-impact interfaces with componentization, design systems, and predictable maintainability."
+      },
+      "node": {
+        "title": "Node.js APIs and Back-end",
+        "description": "Scalable, secure, and observable services to support digital products with reliability."
+      },
+      "architecture": {
+        "title": "Software Architecture",
+        "description": "Definition of standards, technical governance, and strategies for continuous ecosystem evolution."
+      },
+      "saas": {
+        "title": "SaaS Platforms",
+        "description": "Building SaaS products ready for growth, monetization, and large-scale operations."
+      }
+    }
+  },
+  "differentials": {
+    "kicker": "Differentials",
+    "title": "Why companies choose Brothers Labs",
+    "imageAlt": "Brothers Labs team planning high-impact solutions",
+    "items": {
+      "modern": {
+        "title": "Modern and proven technology",
+        "description": "Up-to-date stack with Angular, TypeScript, Node.js, and software engineering best practices."
+      },
+      "scale": {
+        "title": "Scalability from day one",
+        "description": "We architect with long-term vision to avoid rework and simplify product expansion."
+      },
+      "performance": {
+        "title": "Performance as a core requirement",
+        "description": "We optimize user experience, response time, and resource usage for measurable results."
+      },
+      "design": {
+        "title": "Premium conversion-oriented design",
+        "description": "We combine sophisticated aesthetics with clear storytelling to elevate brand value perception."
+      },
+      "innovation": {
+        "title": "Continuous innovation with AI",
+        "description": "We strategically embed AI to accelerate processes and decision-making."
+      },
+      "multiple": {
+        "title": "Experience across multiple segments",
+        "description": "Cross-industry expertise to design solutions aligned with each business context."
+      }
+    }
+  },
+  "metrics": {
+    "kicker": "Metrics",
+    "title": "Results that reflect technical maturity",
+    "items": {
+      "projects": {
+        "label": "Projects delivered",
+        "description": "Outcome-driven implementations across different stages of digital maturity."
+      },
+      "stack": {
+        "label": "Technologies mastered",
+        "description": "Broad technical capability for composing modern and efficient architectures."
+      },
+      "uptime": {
+        "label": "Operational stability",
+        "description": "High reliability in critical systems with focus on continuity and resilience."
+      },
+      "acceleration": {
+        "label": "Delivery acceleration",
+        "description": "Development flows that reduce time-to-market without sacrificing quality."
+      }
+    }
+  },
+  "technologies": {
+    "kicker": "Technologies",
+    "title": "Modern stack for high-performance products",
+    "items": {
+      "angular": { "name": "Angular", "category": "Front-end" },
+      "typescript": { "name": "TypeScript", "category": "Language" },
+      "node": { "name": "Node.js", "category": "Back-end" },
+      "ai": { "name": "Artificial Intelligence", "category": "Innovation" },
+      "apis": { "name": "REST APIs", "category": "Integrations" },
+      "html": { "name": "HTML5", "category": "Markup" },
+      "css": { "name": "Advanced CSS3", "category": "UI Engineering" },
+      "architecture": { "name": "Scalable Architecture", "category": "Engineering" }
+    }
+  },
+  "cta": {
+    "kicker": "Let us build your next success case",
+    "title": "Turn your vision into a world-class digital product.",
+    "description": "Get in touch and design a premium technology strategy with Brothers Labs to grow with predictability.",
+    "button": "Request strategic assessment",
+    "imageAlt": "Modern technology environment representing digital innovation"
+  },
+  "footer": {
+    "description": "Systems development, artificial intelligence, and premium digital platforms.",
+    "whatsappLabel": "WhatsApp",
+    "copyright": "© {{year}} Brothers Labs. All rights reserved."
+  },
+  "contactModal": {
+    "title": "Request strategic assessment",
+    "subtitle": "Fill in the fields below and we will prepare the initial contact with Brothers Labs.",
+    "close": "Close contact modal",
+    "nameLabel": "Name",
+    "namePlaceholder": "Your full name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@company.com",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "+55 (47) 99771-6565",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Describe your challenge, goals, and estimated timeline.",
+    "submit": "Send by email",
+    "requiredError": "Please

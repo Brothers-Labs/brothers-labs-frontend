@@ -1,0 +1,315 @@
+﻿<div class="page-shell">
+  <header class="site-header" [class.site-header-scrolled]="isHeaderScrolled">
+    <mat-toolbar class="toolbar" role="navigation" [attr.aria-label]="'a11y.mainNav' | translate">
+      <a class="brand" href="#hero" (click)="scrollToSection('hero', $event)">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">{{ companyName }}</span>
+      </a>
+
+      <nav class="desktop-nav" [attr.aria-label]="'a11y.pageMenu' | translate">
+        @for (item of navItems; track item.id) {
+          <a href="#{{ item.id }}" (click)="scrollToSection(item.id, $event)">{{ item.labelKey | translate }}</a>
+        }
+      </nav>
+
+      <div class="header-actions">
+        <button mat-stroked-button class="contact-btn" (click)="scrollToSection('contato')">
+          {{ 'header.contactSpecialists' | translate }}
+        </button>
+
+        <div class="lang-switch" [attr.aria-label]="'a11y.languageSelector' | translate">
+          @for (lang of availableLanguages; track lang) {
+            <button
+              type="button"
+              class="lang-btn"
+              [class.active]="currentLanguage === lang"
+              (click)="setLanguage(lang)"
+              [attr.aria-label]="('a11y.switchLanguageTo' | translate) + ' ' + (('common.lang.' + lang) | translate)"
+            >
+              {{ ('common.lang.' + lang) | translate }}
+            </button>
+          }
+        </div>
+
+        <button
+          mat-icon-button
+          class="mobile-menu-btn"
+          [matMenuTriggerFor]="mobileMenu"
+          [attr.aria-label]="'a11y.openMenu' | translate"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+  </header>
+
+  <mat-menu #mobileMenu="matMenu">
+    @for (item of navItems; track item.id) {
+      <button mat-menu-item (click)="scrollToSection(item.id)">
+        {{ item.labelKey | translate }}
+      </button>
+    }
+
+    <button mat-menu-item (click)="setLanguage('pt')">{{ 'common.lang.pt' | translate }}</button>
+    <button mat-menu-item (click)="setLanguage('en')">{{ 'common.lang.en' | translate }}</button>
+  </mat-menu>
+
+  <main>
+    <section id="hero" class="hero section-shell" [attr.aria-label]="'a11y.heroSection' | translate">
+      <div class="hero-content">
+        <p class="eyebrow">{{ 'hero.eyebrow' | translate }}</p>
+        <h1>{{ 'hero.title' | translate }}</h1>
+        <p class="hero-description">{{ 'hero.description' | translate }}</p>
+
+        <div class="hero-actions">
+          <button mat-flat-button class="btn-primary" (click)="scrollToSection('contato')">{{ 'hero.ctaPrimary' | translate }}</button>
+          <button mat-stroked-button class="btn-secondary" (click)="scrollToSection('servicos')">{{ 'hero.ctaSecondary' | translate }}</button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <img class="hero-image" src="brothers-01.png" alt="" loading="eager" decoding="async">
+        <div class="aurora"></div>
+        <div class="grid-orb"></div>
+        <div class="floating-card card-a">
+          <span>{{ 'hero.cardAiLabel' | translate }}</span>
+          <strong>{{ 'hero.cardAiText' | translate }}</strong>
+        </div>
+        <div class="floating-card card-b">
+          <span>{{ 'hero.cardStackLabel' | translate }}</span>
+          <strong>{{ 'hero.cardStackText' | translate }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="about section-shell" aria-labelledby="about-title">
+      <div class="section-heading">
+        <p class="section-kicker">{{ 'about.kicker' | translate }}</p>
+        <h2 id="about-title">{{ 'about.title' | translate }}</h2>
+      </div>
+
+      <div class="about-layout">
+        <p>{{ 'about.description' | translate }}</p>
+
+        <figure class="about-media">
+          <img
+            src="brothers-02.png"
+            [attr.alt]="'about.imageAlt' | translate"
+            loading="lazy"
+            decoding="async"
+          >
+        </figure>
+
+        <div class="highlight-grid">
+          @for (item of highlights; track item.titleKey) {
+            <article class="glass-card">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <h3>{{ item.titleKey | translate }}</h3>
+              <p>{{ item.descriptionKey | translate }}</p>
+            </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos" class="services section-shell" aria-labelledby="services-title">
+      <div class="section-heading">
+        <p class="section-kicker">{{ 'services.kicker' | translate }}</p>
+        <h2 id="services-title">{{ 'services.title' | translate }}</h2>
+      </div>
+
+      <div class="service-grid">
+        @for (service of services; track service.titleKey) {
+          <article class="service-card">
+            <div class="icon-wrap">
+              <mat-icon>{{ service.icon }}</mat-icon>
+            </div>
+            <h3>{{ service.titleKey | translate }}</h3>
+            <p>{{ service.descriptionKey | translate }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="diferenciais" class="differentials section-shell" aria-labelledby="differentials-title">
+      <div class="section-heading">
+        <p class="section-kicker">{{ 'differentials.kicker' | translate }}</p>
+        <h2 id="differentials-title">{{ 'differentials.title' | translate }}</h2>
+      </div>
+
+      <figure class="differentials-media">
+        <img
+          src="brothers-03.png"
+          [attr.alt]="'differentials.imageAlt' | translate"
+          loading="lazy"
+          decoding="async"
+        >
+      </figure>
+
+      <div class="differential-grid">
+        @for (item of differentiators; track item.titleKey) {
+          <article class="differential-item">
+            <h3>{{ item.titleKey | translate }}</h3>
+            <p>{{ item.descriptionKey | translate }}</p>
+          </article>
+        }
+      </div>
+    </section>
+
+    <!--
+    <section #metricsSection class="metrics section-shell" aria-labelledby="metrics-title">
+      <div class="section-heading">
+        <p class="section-kicker">{{ 'metrics.kicker' | translate }}</p>
+        <h2 id="metrics-title">{{ 'metrics.title' | translate }}</h2>
+      </div>
+
+      <div class="metric-grid">
+        @for (metric of metrics; track metric.key) {
+          <article class="metric-card">
+            <p class="metric-value">{{ animatedStats[metric.key] }}{{ metric.suffix }}</p>
+            <h3>{{ metric.labelKey | translate }}</h3>
+            <p>{{ metric.descriptionKey | translate }}</p>
+          </article>
+        }
+      </div>
+    </section>
+    -->
+
+    <section id="tecnologias" class="technologies section-shell" aria-labelledby="tech-title">
+      <div class="section-heading">
+        <p class="section-kicker">{{ 'technologies.kicker' | translate }}</p>
+        <h2 id="tech-title">{{ 'technologies.title' | translate }}</h2>
+      </div>
+
+      <div class="tech-badges" role="list" [attr.aria-label]="'a11y.techStack' | translate">
+        @for (tech of technologies; track tech.nameKey) {
+          <article class="tech-badge" role="listitem">
+            <span class="tech-name">{{ tech.nameKey | translate }}</span>
+            <span class="tech-category">{{ tech.categoryKey | translate }}</span>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section id="contato" class="cta section-shell" aria-labelledby="cta-title">
+      <div class="cta-panel">
+        <img
+          class="cta-image"
+          src="brothers-04.png"
+          [attr.alt]="'cta.imageAlt' | translate"
+          loading="lazy"
+          decoding="async"
+        >
+        <p class="section-kicker">{{ 'cta.kicker' | translate }}</p>
+        <h2 id="cta-title">{{ 'cta.title' | translate }}</h2>
+        <p>{{ 'cta.description' | translate }}</p>
+        <button mat-flat-button class="btn-primary" (click)="openContactModal()">{{ 'cta.button' | translate }}</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-content">
+      <div>
+        <h3>{{ companyName }}</h3>
+        <p>{{ 'footer.description' | translate }}</p>
+        <a class="footer-whatsapp" [href]="whatsappUrl" target="_blank" rel="noopener">
+          {{ 'footer.whatsappLabel' | translate }}: +55 47 99771-6565
+        </a>
+      </div>
+
+      <nav [attr.aria-label]="'a11y.institutionalLinks' | translate" class="footer-links">
+        <a href="#sobre" (click)="scrollToSection('sobre', $event)">{{ 'nav.about' | translate }}</a>
+        <a href="#servicos" (click)="scrollToSection('servicos', $event)">{{ 'nav.services' | translate }}</a>
+        <a href="#tecnologias" (click)="scrollToSection('tecnologias', $event)">{{ 'nav.technologies' | translate }}</a>
+      </nav>
+
+      <div class="footer-social" [attr.aria-label]="'a11y.socialLinks' | translate">
+        <!-- <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a> -->
+        <a [href]="githubProfileUrl" target="_blank" rel="noopener">GitHub</a>
+        <!-- <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a> -->
+      </div>
+    </div>
+    <p class="copyright">{{ 'footer.copyright' | translate:{ year: currentYear } }}</p>
+  </footer>
+</div>
+
+@if (isContactModalOpen) {
+  <div class="contact-modal-overlay" role="presentation" (click)="closeContactModal()">
+    <section
+      class="contact-modal"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'contactModal.title' | translate"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="contact-modal-header">
+        <h3>{{ 'contactModal.title' | translate }}</h3>
+        <button
+          type="button"
+          class="contact-modal-close"
+          (click)="closeContactModal()"
+          [attr.aria-label]="'contactModal.close' | translate"
+        >
+          ×
+        </button>
+      </div>
+
+      <p class="contact-modal-subtitle">{{ 'contactModal.subtitle' | translate }}</p>
+
+      <form class="contact-form" (ngSubmit)="submitContactForm()">
+        <label class="contact-label" for="contact-name">{{ 'contactModal.nameLabel' | translate }}</label>
+        <input
+          id="contact-name"
+          name="name"
+          type="text"
+          [(ngModel)]="contactForm.name"
+          [placeholder]="'contactModal.namePlaceholder' | translate"
+          [class.input-invalid]="isFieldInvalid('name')"
+        >
+
+        <label class="contact-label" for="contact-email">{{ 'contactModal.emailLabel' | translate }}</label>
+        <input
+          id="contact-email"
+          name="email"
+          type="email"
+          [(ngModel)]="contactForm.email"
+          [placeholder]="'contactModal.emailPlaceholder' | translate"
+          [class.input-invalid]="isFieldInvalid('email')"
+        >
+
+        <label class="contact-label" for="contact-phone">{{ 'contactModal.phoneLabel' | translate }}</label>
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          [(ngModel)]="contactForm.phone"
+          [placeholder]="'contactModal.phonePlaceholder' | translate"
+          [class.input-invalid]="isFieldInvalid('phone')"
+        >
+
+        <label class="contact-label" for="contact-message">{{ 'contactModal.messageLabel' | translate }}</label>
+        <textarea
+          id="contact-message"
+          name="message"
+          rows="5"
+          [(ngModel)]="contactForm.message"
+          [placeholder]="'contactModal.messagePlaceholder' | translate"
+          [class.input-invalid]="isFieldInvalid('message')"
+        ></textarea>
+
+        @if (hasTriedToSubmitContact && !contactForm.email.trim()) {
+          <p class="contact-error">{{ 'contactModal.requiredError' | translate }}</p>
+        } @else if (isFieldInvalid('email')) {
+          <p class="contact-error">{{ 'contactModal.invalidEmailError' | translate }}</p>
+        } @else if (hasTriedToSubmitContact && (isFieldInvalid('name') || isFieldInvalid('phone') || isFieldInvalid('message'))) {
+          <p class="contact-error">{{ 'contactModal.requiredError' | translate }}</p>
+        }
+
+        <button type="submit" mat-flat-button class="btn-primary contact-submit">
+          {{ 'contactModal.submit' | translate }}
+        </button>
+      </form>
+    </section>
+  </div>
+}
