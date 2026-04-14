@@ -179,4 +179,8 @@
     "messageLabel": "Message",
     "messagePlaceholder": "Describe your challenge, goals, and estimated timeline.",
     "submit": "Send by email",
-    "requiredError": "Please
+    "requiredError": "Please fill in all required fields.",
+    "invalidEmailError": "Please provide a valid email.",
+    "emailSubject": "Website contact - Brothers Labs"
+  }
+}
