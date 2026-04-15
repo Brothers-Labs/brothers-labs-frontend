@@ -1,4 +1,17 @@
 ﻿<div class="page-shell">
+  <div class="ultra-premium-layer" aria-hidden="true">
+    @for (particle of particles; track $index) {
+      <span
+        class="particle"
+        [style.left]="particle.x"
+        [style.top]="particle.y"
+        [style.width]="particle.size"
+        [style.height]="particle.size"
+        [style.animationDuration]="particle.duration"
+        [style.animationDelay]="particle.delay"
+      ></span>
+    }
+  </div>
   <header class="site-header" [class.site-header-scrolled]="isHeaderScrolled">
     <mat-toolbar class="toolbar" role="navigation" [attr.aria-label]="'a11y.mainNav' | translate">
       <a class="brand" href="#hero" (click)="scrollToSection('hero', $event)">
@@ -122,7 +135,12 @@
 
         <div class="highlight-grid">
           @for (item of highlights; track item.titleKey) {
-            <article class="glass-card reveal" #revealEl>
+            <article
+              class="glass-card reveal interactive-tilt"
+              #revealEl
+              (mousemove)="onInteractiveMove($event)"
+              (mouseleave)="onInteractiveLeave($event)"
+            >
               <mat-icon>{{ item.icon }}</mat-icon>
               <h3>{{ item.titleKey | translate }}</h3>
               <p>{{ item.descriptionKey | translate }}</p>
@@ -140,7 +158,12 @@
 
       <div class="service-grid">
         @for (service of services; track service.titleKey) {
-          <article class="service-card reveal" #revealEl>
+          <article
+            class="service-card reveal interactive-tilt"
+            #revealEl
+            (mousemove)="onInteractiveMove($event)"
+            (mouseleave)="onInteractiveLeave($event)"
+          >
             <div class="icon-wrap">
               <mat-icon>{{ service.icon }}</mat-icon>
             </div>
@@ -177,7 +200,12 @@
 
       <div class="differential-grid">
         @for (item of differentiators; track item.titleKey) {
-          <article class="differential-item reveal" #revealEl>
+          <article
+            class="differential-item reveal interactive-tilt"
+            #revealEl
+            (mousemove)="onInteractiveMove($event)"
+            (mouseleave)="onInteractiveLeave($event)"
+          >
             <h3>{{ item.titleKey | translate }}</h3>
             <p>{{ item.descriptionKey | translate }}</p>
           </article>
@@ -193,7 +221,13 @@
 
       <div class="tech-badges" role="list" [attr.aria-label]="'a11y.techStack' | translate">
         @for (tech of technologies; track tech.nameKey) {
-          <article class="tech-badge reveal" #revealEl role="listitem">
+          <article
+            class="tech-badge reveal interactive-tilt"
+            #revealEl
+            role="listitem"
+            (mousemove)="onInteractiveMove($event)"
+            (mouseleave)="onInteractiveLeave($event)"
+          >
             <span class="tech-name">{{ tech.nameKey | translate }}</span>
             <span class="tech-category">{{ tech.categoryKey | translate }}</span>
           </article>
@@ -330,3 +364,4 @@
     </section>
   </div>
 }
+

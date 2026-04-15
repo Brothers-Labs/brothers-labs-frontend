@@ -45,7 +45,8 @@
 .interactive-tilt {
   --mx: 0.5;
   --my: 0.5;
-  transform: perspective(1100px)
+  --lift: 0px;
+  transform: translateY(var(--lift)) perspective(1100px)
     rotateX(calc((0.5 - var(--my)) * 6deg))
     rotateY(calc((var(--mx) - 0.5) * 8deg));
   transform-style: preserve-3d;
@@ -53,7 +54,22 @@
 }
 
 .page-shell {
+  position: relative;
   overflow-x: clip;
+}
+
+.ultra-premium-layer {
+  display: none;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgb(110 219 255 / 0.9), rgb(122 92 255 / 0.18) 70%, transparent 100%);
+  box-shadow: 0 0 14px rgb(0 174 239 / 0.45);
+  animation-name: driftParticle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .section-shell {
@@ -426,15 +442,45 @@ main {
   gap: 1rem;
 }
 
+.highlight-grid .glass-card:nth-child(3n + 1) { transition-delay: 80ms; }
+.highlight-grid .glass-card:nth-child(3n + 2) { transition-delay: 180ms; }
+.highlight-grid .glass-card:nth-child(3n + 3) { transition-delay: 280ms; }
+
 .glass-card,
 .service-card,
 .differential-item,
 .metric-card,
 .tech-badge {
+  --card-hue-1: rgb(0 174 239 / 0.2);
+  --card-hue-2: rgb(122 92 255 / 0.2);
+  --fx-delay: 0s;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   border-radius: 1rem;
   border: 1px solid rgb(255 255 255 / 0.1);
-  background: linear-gradient(150deg, rgb(15 23 42 / 0.95), rgb(7 15 32 / 0.8));
+  background:
+    radial-gradient(circle at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.5) * 100%), var(--card-hue-1), transparent 56%),
+    linear-gradient(150deg, rgb(15 23 42 / 0.95), rgb(7 15 32 / 0.8));
   transition: transform 240ms ease, border-color 240ms ease, box-shadow 240ms ease, background 240ms ease;
+}
+
+.glass-card::before,
+.service-card::after,
+.differential-item::before,
+.tech-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.glass-card::before,
+.differential-item::before {
+  background: linear-gradient(120deg, transparent 20%, var(--card-hue-2) 50%, transparent 80%);
+  transform: translateX(-125%);
+  animation: cardSweep 6.6s linear infinite;
+  animation-delay: var(--fx-delay);
 }
 
 .glass-card {
@@ -485,9 +531,11 @@ main {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.service-grid .service-card:nth-child(3n + 1) { transition-delay: 70ms; }
+.service-grid .service-card:nth-child(3n + 2) { transition-delay: 170ms; }
+.service-grid .service-card:nth-child(3n + 3) { transition-delay: 270ms; }
+
 .service-card {
-  position: relative;
-  overflow: hidden;
   padding: 1.4rem;
 }
 
@@ -501,12 +549,20 @@ main {
   transition: transform 320ms ease;
 }
 
+.service-card::after {
+  background: linear-gradient(125deg, transparent 24%, var(--card-hue-2) 50%, transparent 76%);
+  opacity: 0.45;
+  transform: translateX(-130%);
+  animation: cardSweep 7.2s linear infinite;
+  animation-delay: var(--fx-delay);
+}
+
 .service-card:hover,
 .differential-item:hover,
 .metric-card:hover,
 .tech-badge:hover,
 .glass-card:hover {
-  transform: translateY(-4px);
+  --lift: -6px;
   border-color: rgb(110 219 255 / 0.45);
   box-shadow: 0 16px 34px rgb(0 0 0 / 0.35);
   background: linear-gradient(150deg, rgb(22 33 62 / 0.98), rgb(7 17 36 / 0.95));
@@ -519,6 +575,9 @@ main {
 .differential-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+
+.differential-grid .differential-item:nth-child(2n + 1) { transition-delay: 90ms; }
+.differential-grid .differential-item:nth-child(2n + 2) { transition-delay: 220ms; }
 
 .differentials-media {
   margin: 0 0 1.1rem;
@@ -578,17 +637,43 @@ main {
 }
 
 .tech-badges {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
+
+.tech-badges .tech-badge:nth-child(4n + 1) { transition-delay: 60ms; }
+.tech-badges .tech-badge:nth-child(4n + 2) { transition-delay: 130ms; }
+.tech-badges .tech-badge:nth-child(4n + 3) { transition-delay: 200ms; }
+.tech-badges .tech-badge:nth-child(4n + 4) { transition-delay: 270ms; }
 
 .tech-badge {
   padding: 1rem;
   display: grid;
   gap: 0.45rem;
+  background:
+    radial-gradient(circle at calc(var(--mx, 0.5) * 100%) calc(var(--my, 0.5) * 100%), var(--card-hue-1), transparent 52%),
+    linear-gradient(145deg, rgb(12 24 48 / 0.95), rgb(8 17 35 / 0.9));
+  animation: techFloat 6.2s ease-in-out infinite;
+  animation-delay: var(--fx-delay);
+}
+
+.tech-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 15%, rgb(122 92 255 / 0.22) 50%, transparent 85%);
+  transform: translateX(-120%);
+  animation: techShimmer 5.8s linear infinite;
+  z-index: 0;
+}
+
+.tech-badge > * {
+  position: relative;
+  z-index: 1;
 }
 
 .tech-name {
   font-family: 'Sora', sans-serif;
+  font-size: 1rem;
 }
 
 .tech-category {
@@ -596,6 +681,93 @@ main {
   font-size: 0.84rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+.tech-badge:hover {
+  --lift: -10px;
+  box-shadow: 0 20px 45px rgb(0 0 0 / 0.38), 0 0 0 1px rgb(122 92 255 / 0.35);
+}
+
+.tech-badge:nth-child(2n) {
+  --fx-delay: 0.8s;
+}
+
+.tech-badge:nth-child(3n) {
+  --fx-delay: 1.4s;
+}
+
+.tech-badge:nth-child(4n) {
+  --fx-delay: 2s;
+}
+
+.tech-badge:nth-child(5n + 1) {
+  --card-hue-1: rgb(0 174 239 / 0.26);
+  --card-hue-2: rgb(110 219 255 / 0.22);
+}
+
+.tech-badge:nth-child(5n + 2) {
+  --card-hue-1: rgb(122 92 255 / 0.26);
+  --card-hue-2: rgb(182 168 255 / 0.24);
+}
+
+.tech-badge:nth-child(5n + 3) {
+  --card-hue-1: rgb(16 185 129 / 0.2);
+  --card-hue-2: rgb(14 165 233 / 0.2);
+}
+
+.tech-badge:nth-child(5n + 4) {
+  --card-hue-1: rgb(99 102 241 / 0.24);
+  --card-hue-2: rgb(168 85 247 / 0.2);
+}
+
+.tech-badge:nth-child(5n + 5) {
+  --card-hue-1: rgb(6 182 212 / 0.22);
+  --card-hue-2: rgb(59 130 246 / 0.2);
+}
+
+.highlight-grid .glass-card:nth-child(1),
+.service-grid .service-card:nth-child(1),
+.differential-grid .differential-item:nth-child(1) {
+  --card-hue-1: rgb(0 174 239 / 0.24);
+  --card-hue-2: rgb(110 219 255 / 0.2);
+  --fx-delay: 0.25s;
+}
+
+.highlight-grid .glass-card:nth-child(2),
+.service-grid .service-card:nth-child(2),
+.differential-grid .differential-item:nth-child(2) {
+  --card-hue-1: rgb(122 92 255 / 0.25);
+  --card-hue-2: rgb(182 168 255 / 0.22);
+  --fx-delay: 0.6s;
+}
+
+.highlight-grid .glass-card:nth-child(3),
+.service-grid .service-card:nth-child(3),
+.differential-grid .differential-item:nth-child(3) {
+  --card-hue-1: rgb(6 182 212 / 0.24);
+  --card-hue-2: rgb(16 185 129 / 0.18);
+  --fx-delay: 0.9s;
+}
+
+.service-grid .service-card:nth-child(4),
+.differential-grid .differential-item:nth-child(4) {
+  --card-hue-1: rgb(99 102 241 / 0.24);
+  --card-hue-2: rgb(139 92 246 / 0.2);
+  --fx-delay: 1.2s;
+}
+
+.service-grid .service-card:nth-child(5),
+.differential-grid .differential-item:nth-child(5) {
+  --card-hue-1: rgb(34 197 94 / 0.19);
+  --card-hue-2: rgb(6 182 212 / 0.2);
+  --fx-delay: 1.55s;
+}
+
+.service-grid .service-card:nth-child(6),
+.differential-grid .differential-item:nth-child(6) {
+  --card-hue-1: rgb(14 165 233 / 0.21);
+  --card-hue-2: rgb(79 70 229 / 0.2);
+  --fx-delay: 1.8s;
 }
 
 .cta-panel {
@@ -848,6 +1020,55 @@ textarea:focus-visible {
   }
 }
 
+@keyframes techFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes techShimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(140%);
+  }
+}
+
+@keyframes driftParticle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+    opacity: 0.22;
+  }
+  25% {
+    transform: translate3d(14px, -10px, 0) scale(1.05);
+    opacity: 0.42;
+  }
+  50% {
+    transform: translate3d(-10px, -18px, 0) scale(0.9);
+    opacity: 0.26;
+  }
+  75% {
+    transform: translate3d(8px, -8px, 0) scale(1);
+    opacity: 0.38;
+  }
+}
+
+@keyframes cardSweep {
+  0% {
+    transform: translateX(-125%);
+  }
+  100% {
+    transform: translateX(145%);
+  }
+}
+
+
 @media (max-width: 1100px) {
   .hero {
     grid-template-columns: 1fr;
@@ -864,6 +1085,24 @@ textarea:focus-visible {
   .metric-grid,
   .tech-badges {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .ultra-premium-layer {
+    display: block;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.7;
+  }
+
+  .site-header,
+  main,
+  .site-footer {
+    position: relative;
+    z-index: 1;
   }
 }
 
@@ -958,5 +1197,10 @@ textarea:focus-visible {
 
   .interactive-tilt {
     transform: none !important;
+  }
+
+  .particle {
+    animation: none !important;
+    opacity: 0 !important;
   }
 }

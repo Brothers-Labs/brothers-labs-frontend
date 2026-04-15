@@ -54,6 +54,14 @@ interface ContactFormData {
   message: string;
 }
 
+interface ParticleItem {
+  readonly x: string;
+  readonly y: string;
+  readonly size: string;
+  readonly duration: string;
+  readonly delay: string;
+}
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -79,6 +87,20 @@ export class App implements AfterViewInit, OnDestroy {
   readonly githubProfileUrl = 'https://github.com/Brothers-Labs';
   readonly contactEmail = 'pf.souza15@gmail.com';
   readonly currentYear = new Date().getFullYear();
+  readonly particles: ReadonlyArray<ParticleItem> = [
+    { x: '6%', y: '12%', size: '6px', duration: '14s', delay: '0s' },
+    { x: '14%', y: '28%', size: '4px', duration: '18s', delay: '1.3s' },
+    { x: '22%', y: '8%', size: '5px', duration: '16s', delay: '2.2s' },
+    { x: '31%', y: '24%', size: '7px', duration: '20s', delay: '0.8s' },
+    { x: '39%', y: '10%', size: '4px', duration: '15s', delay: '2.8s' },
+    { x: '48%', y: '30%', size: '6px', duration: '22s', delay: '1.5s' },
+    { x: '56%', y: '14%', size: '5px', duration: '17s', delay: '0.4s' },
+    { x: '64%', y: '27%', size: '7px', duration: '21s', delay: '2.4s' },
+    { x: '72%', y: '9%', size: '4px', duration: '16s', delay: '1.1s' },
+    { x: '79%', y: '22%', size: '5px', duration: '19s', delay: '2.9s' },
+    { x: '86%', y: '11%', size: '6px', duration: '18s', delay: '0.6s' },
+    { x: '93%', y: '26%', size: '4px', duration: '15s', delay: '2.1s' }
+  ];
 
   readonly navItems: ReadonlyArray<NavItem> = [
     { id: 'sobre', labelKey: 'nav.about' },
@@ -169,8 +191,14 @@ export class App implements AfterViewInit, OnDestroy {
   readonly technologies: ReadonlyArray<TechnologyItem> = [
     { nameKey: 'technologies.items.angular.name', categoryKey: 'technologies.items.angular.category' },
     { nameKey: 'technologies.items.typescript.name', categoryKey: 'technologies.items.typescript.category' },
+    { nameKey: 'technologies.items.react.name', categoryKey: 'technologies.items.react.category' },
     { nameKey: 'technologies.items.node.name', categoryKey: 'technologies.items.node.category' },
     { nameKey: 'technologies.items.ai.name', categoryKey: 'technologies.items.ai.category' },
+    { nameKey: 'technologies.items.apps.name', categoryKey: 'technologies.items.apps.category' },
+    { nameKey: 'technologies.items.chatbot.name', categoryKey: 'technologies.items.chatbot.category' },
+    { nameKey: 'technologies.items.database.name', categoryKey: 'technologies.items.database.category' },
+    { nameKey: 'technologies.items.postgresql.name', categoryKey: 'technologies.items.postgresql.category' },
+    { nameKey: 'technologies.items.mongodb.name', categoryKey: 'technologies.items.mongodb.category' },
     { nameKey: 'technologies.items.apis.name', categoryKey: 'technologies.items.apis.category' },
     { nameKey: 'technologies.items.html.name', categoryKey: 'technologies.items.html.category' },
     { nameKey: 'technologies.items.css.name', categoryKey: 'technologies.items.css.category' },
