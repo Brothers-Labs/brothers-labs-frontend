@@ -1,17 +1,19 @@
 ﻿<div class="page-shell">
-  <div class="ultra-premium-layer" aria-hidden="true">
-    @for (particle of particles; track $index) {
-      <span
-        class="particle"
-        [style.left]="particle.x"
-        [style.top]="particle.y"
-        [style.width]="particle.size"
-        [style.height]="particle.size"
-        [style.animationDuration]="particle.duration"
-        [style.animationDelay]="particle.delay"
-      ></span>
-    }
-  </div>
+  @if (isUltraPremiumDesktop) {
+    <div class="ultra-premium-layer" aria-hidden="true">
+      @for (particle of particles; track $index) {
+        <span
+          class="particle"
+          [style.left]="particle.x"
+          [style.top]="particle.y"
+          [style.width]="particle.size"
+          [style.height]="particle.size"
+          [style.animationDuration]="particle.duration"
+          [style.animationDelay]="particle.delay"
+        ></span>
+      }
+    </div>
+  }
   <header class="site-header" [class.site-header-scrolled]="isHeaderScrolled">
     <mat-toolbar class="toolbar" role="navigation" [attr.aria-label]="'a11y.mainNav' | translate">
       <a class="brand" href="#hero" (click)="scrollToSection('hero', $event)">
@@ -138,6 +140,7 @@
             <article
               class="glass-card reveal interactive-tilt"
               #revealEl
+              [style.--desktop-stagger]="getColumnStagger($index, 3)"
               (mousemove)="onInteractiveMove($event)"
               (mouseleave)="onInteractiveLeave($event)"
             >
@@ -161,6 +164,7 @@
           <article
             class="service-card reveal interactive-tilt"
             #revealEl
+            [style.--desktop-stagger]="getColumnStagger($index, 3)"
             (mousemove)="onInteractiveMove($event)"
             (mouseleave)="onInteractiveLeave($event)"
           >
@@ -203,6 +207,7 @@
           <article
             class="differential-item reveal interactive-tilt"
             #revealEl
+            [style.--desktop-stagger]="getColumnStagger($index, 2)"
             (mousemove)="onInteractiveMove($event)"
             (mouseleave)="onInteractiveLeave($event)"
           >
@@ -225,6 +230,7 @@
             class="tech-badge reveal interactive-tilt"
             #revealEl
             role="listitem"
+            [style.--desktop-stagger]="getColumnStagger($index, 4)"
             (mousemove)="onInteractiveMove($event)"
             (mouseleave)="onInteractiveLeave($event)"
           >

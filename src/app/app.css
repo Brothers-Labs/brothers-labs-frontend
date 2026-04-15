@@ -31,6 +31,7 @@
 }
 
 .reveal {
+  --desktop-stagger: 0;
   opacity: 0;
   transform: translateY(28px) scale(0.985);
   transition: opacity 640ms cubic-bezier(0.2, 0.65, 0.22, 1), transform 640ms cubic-bezier(0.2, 0.65, 0.22, 1);
@@ -67,6 +68,7 @@
   border-radius: 999px;
   background: radial-gradient(circle, rgb(110 219 255 / 0.9), rgb(122 92 255 / 0.18) 70%, transparent 100%);
   box-shadow: 0 0 14px rgb(0 174 239 / 0.45);
+  filter: blur(0.4px);
   animation-name: driftParticle;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
@@ -442,10 +444,6 @@ main {
   gap: 1rem;
 }
 
-.highlight-grid .glass-card:nth-child(3n + 1) { transition-delay: 80ms; }
-.highlight-grid .glass-card:nth-child(3n + 2) { transition-delay: 180ms; }
-.highlight-grid .glass-card:nth-child(3n + 3) { transition-delay: 280ms; }
-
 .glass-card,
 .service-card,
 .differential-item,
@@ -531,10 +529,6 @@ main {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.service-grid .service-card:nth-child(3n + 1) { transition-delay: 70ms; }
-.service-grid .service-card:nth-child(3n + 2) { transition-delay: 170ms; }
-.service-grid .service-card:nth-child(3n + 3) { transition-delay: 270ms; }
-
 .service-card {
   padding: 1.4rem;
 }
@@ -575,9 +569,6 @@ main {
 .differential-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-
-.differential-grid .differential-item:nth-child(2n + 1) { transition-delay: 90ms; }
-.differential-grid .differential-item:nth-child(2n + 2) { transition-delay: 220ms; }
 
 .differentials-media {
   margin: 0 0 1.1rem;
@@ -639,11 +630,6 @@ main {
 .tech-badges {
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 }
-
-.tech-badges .tech-badge:nth-child(4n + 1) { transition-delay: 60ms; }
-.tech-badges .tech-badge:nth-child(4n + 2) { transition-delay: 130ms; }
-.tech-badges .tech-badge:nth-child(4n + 3) { transition-delay: 200ms; }
-.tech-badges .tech-badge:nth-child(4n + 4) { transition-delay: 270ms; }
 
 .tech-badge {
   padding: 1rem;
@@ -1089,13 +1075,30 @@ textarea:focus-visible {
 }
 
 @media (min-width: 1024px) {
+  .reveal {
+    transition-delay: calc(var(--desktop-stagger, 0) * 110ms);
+  }
+
   .ultra-premium-layer {
     display: block;
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.7;
+    opacity: 0.72;
+    overflow: clip;
+  }
+
+  .ultra-premium-layer::before {
+    content: '';
+    position: absolute;
+    inset: -10% 0 auto;
+    height: 38vh;
+    background:
+      radial-gradient(circle at 18% 32%, rgb(0 174 239 / 0.12), transparent 22%),
+      radial-gradient(circle at 78% 20%, rgb(122 92 255 / 0.1), transparent 20%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.03), transparent 68%);
+    filter: blur(16px);
   }
 
   .site-header,

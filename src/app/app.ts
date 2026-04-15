@@ -208,6 +208,7 @@ export class App implements AfterViewInit, OnDestroy {
   isHeaderScrolled = false;
   isContactModalOpen = false;
   hasTriedToSubmitContact = false;
+  isUltraPremiumDesktop = false;
   currentLanguage: LanguageCode = 'pt';
 
   contactForm: ContactFormData = {
@@ -235,11 +236,17 @@ export class App implements AfterViewInit, OnDestroy {
     this.currentLanguage = normalizedLanguage;
     this.translate.use(normalizedLanguage);
     this.document.documentElement.lang = normalizedLanguage;
+    this.updateUltraPremiumMode();
   }
 
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.isHeaderScrolled = window.scrollY > 16;
+  }
+
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    this.updateUltraPremiumMode();
   }
 
   @HostListener('document:keydown.escape')
@@ -391,6 +398,10 @@ export class App implements AfterViewInit, OnDestroy {
     element.style.setProperty('--my', '0.5');
   }
 
+  getColumnStagger(index: number, columns: number): number {
+    return index % columns;
+  }
+
   private initRevealObserver(): void {
     this.revealObserver?.disconnect();
 
@@ -461,5 +472,16 @@ export class App implements AfterViewInit, OnDestroy {
 
   private unlockBodyScroll(): void {
     this.document.body.style.overflow = '';
+  }
+
+  private updateUltraPremiumMode(): void {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      this.isUltraPremiumDesktop = false;
+      return;
+    }
+
+    this.isUltraPremiumDesktop = window.matchMedia(
+      '(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
+    ).matches;
   }
 }
