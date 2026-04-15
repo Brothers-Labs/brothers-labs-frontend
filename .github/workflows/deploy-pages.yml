@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Build for Pages
-        run: npm run build -- --configuration production --base-href "/${{ github.event.repository.name }}/"
+        run: npm run build -- --configuration production --base-href "/"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
