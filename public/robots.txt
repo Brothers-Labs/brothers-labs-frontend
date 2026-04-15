@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://brothers-labs.github.io/brothers-labs-frontend/sitemap.xml

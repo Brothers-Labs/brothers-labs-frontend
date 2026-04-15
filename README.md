@@ -198,6 +198,16 @@ Observacao:
 
 - O push da release na `main` tambem aciona o deploy do site.
 
+## Analytics (GA4)
+
+O frontend esta preparado para Google Analytics 4 com eventos de conversao (`click_cta`, `open_modal`, `submit_contact`).
+
+Para ativar:
+
+1. Edite `public/runtime-config.js`
+2. Defina `gaMeasurementId` com seu ID GA4 (ex: `G-XXXXXXXXXX`)
+3. Faça deploy
+
 ## Convencoes Recomendadas (time)
 
 - usar tipagem explicita para modelos e dados de UI

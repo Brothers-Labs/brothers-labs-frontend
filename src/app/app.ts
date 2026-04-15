@@ -1,11 +1,13 @@
-﻿import { CommonModule, DOCUMENT } from '@angular/common';
+﻿import { A11yModule } from '@angular/cdk/a11y';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   HostListener,
   OnDestroy,
-  ViewChild,
+  QueryList,
+  ViewChildren,
   inject
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AnalyticsService } from './core/analytics.service';
 
-type StatKey = 'projects' | 'stack' | 'uptime' | 'acceleration';
 type LanguageCode = 'pt' | 'en';
 
 interface NavItem {
@@ -40,14 +42,6 @@ interface DifferentiatorItem {
   readonly descriptionKey: string;
 }
 
-interface MetricItem {
-  readonly key: StatKey;
-  readonly target: number;
-  readonly suffix: string;
-  readonly labelKey: string;
-  readonly descriptionKey: string;
-}
-
 interface TechnologyItem {
   readonly nameKey: string;
   readonly categoryKey: string;
@@ -62,16 +56,29 @@ interface ContactFormData {
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, FormsModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, TranslateModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    A11yModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    TranslateModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App implements AfterViewInit, OnDestroy {
-  @ViewChild('metricsSection')
-  private metricsSection?: ElementRef<HTMLElement>;
+  @ViewChildren('revealEl', { read: ElementRef })
+  private revealElements?: QueryList<ElementRef<HTMLElement>>;
 
   readonly companyName = 'Brothers Labs';
   readonly availableLanguages: ReadonlyArray<LanguageCode> = ['pt', 'en'];
+  readonly whatsappUrl = 'https://wa.me/5547997716565';
+  readonly githubProfileUrl = 'https://github.com/Brothers-Labs';
+  readonly contactEmail = 'pf.souza15@gmail.com';
+  readonly currentYear = new Date().getFullYear();
 
   readonly navItems: ReadonlyArray<NavItem> = [
     { id: 'sobre', labelKey: 'nav.about' },
@@ -159,37 +166,6 @@ export class App implements AfterViewInit, OnDestroy {
     }
   ];
 
-  readonly metrics: ReadonlyArray<MetricItem> = [
-    {
-      key: 'projects',
-      target: 120,
-      suffix: '+',
-      labelKey: 'metrics.items.projects.label',
-      descriptionKey: 'metrics.items.projects.description'
-    },
-    {
-      key: 'stack',
-      target: 36,
-      suffix: '+',
-      labelKey: 'metrics.items.stack.label',
-      descriptionKey: 'metrics.items.stack.description'
-    },
-    {
-      key: 'uptime',
-      target: 99,
-      suffix: '%',
-      labelKey: 'metrics.items.uptime.label',
-      descriptionKey: 'metrics.items.uptime.description'
-    },
-    {
-      key: 'acceleration',
-      target: 4,
-      suffix: 'x',
-      labelKey: 'metrics.items.acceleration.label',
-      descriptionKey: 'metrics.items.acceleration.description'
-    }
-  ];
-
   readonly technologies: ReadonlyArray<TechnologyItem> = [
     { nameKey: 'technologies.items.angular.name', categoryKey: 'technologies.items.angular.category' },
     { nameKey: 'technologies.items.typescript.name', categoryKey: 'technologies.items.typescript.category' },
@@ -201,15 +177,10 @@ export class App implements AfterViewInit, OnDestroy {
     { nameKey: 'technologies.items.architecture.name', categoryKey: 'technologies.items.architecture.category' }
   ];
 
-  readonly currentYear = new Date().getFullYear();
-  readonly whatsappUrl = 'https://wa.me/5547997716565';
-  readonly githubProfileUrl = 'https://github.com/Brothers-Labs';
-  readonly contactEmail = 'pf.souza15@gmail.com';
-
   isHeaderScrolled = false;
-  currentLanguage: LanguageCode = 'pt';
   isContactModalOpen = false;
   hasTriedToSubmitContact = false;
+  currentLanguage: LanguageCode = 'pt';
 
   contactForm: ContactFormData = {
     name: '',
@@ -218,25 +189,20 @@ export class App implements AfterViewInit, OnDestroy {
     message: ''
   };
 
-  animatedStats: Record<StatKey, number> = {
-    projects: 0,
-    stack: 0,
-    uptime: 0,
-    acceleration: 0
-  };
-
+  private readonly languageStorageKey = 'brothers_labs_lang';
   private readonly document = inject(DOCUMENT);
   private readonly translate = inject(TranslateService);
-  private metricsObserver?: IntersectionObserver;
-  private countersStarted = false;
-  private animationFrameIds: number[] = [];
+  private readonly analytics = inject(AnalyticsService);
+  private revealObserver?: IntersectionObserver;
+  private previouslyFocusedElement: HTMLElement | null = null;
 
   constructor() {
     this.translate.addLangs(this.availableLanguages as string[]);
     this.translate.setDefaultLang('pt');
 
+    const savedLanguage = this.readSavedLanguage();
     const browserLanguage = this.translate.getBrowserLang();
-    const normalizedLanguage: LanguageCode = browserLanguage === 'en' ? 'en' : 'pt';
+    const normalizedLanguage: LanguageCode = savedLanguage ?? (browserLanguage === 'en' ? 'en' : 'pt');
 
     this.currentLanguage = normalizedLanguage;
     this.translate.use(normalizedLanguage);
@@ -256,28 +222,16 @@ export class App implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (!this.metricsSection) {
-      return;
-    }
+    this.initRevealObserver();
 
-    this.metricsObserver = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting && !this.countersStarted) {
-          this.startCounterAnimations();
-          this.countersStarted = true;
-          this.metricsObserver?.disconnect();
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    this.metricsObserver.observe(this.metricsSection.nativeElement);
+    this.revealElements?.changes.subscribe(() => {
+      this.initRevealObserver();
+    });
   }
 
   ngOnDestroy(): void {
-    this.metricsObserver?.disconnect();
-    this.animationFrameIds.forEach((frameId) => cancelAnimationFrame(frameId));
+    this.revealObserver?.disconnect();
+    this.unlockBodyScroll();
   }
 
   setLanguage(language: LanguageCode): void {
@@ -288,20 +242,45 @@ export class App implements AfterViewInit, OnDestroy {
     this.currentLanguage = language;
     this.translate.use(language);
     this.document.documentElement.lang = language;
+    this.saveLanguagePreference(language);
+
+    this.analytics.trackEvent('language_change', {
+      language
+    });
   }
 
-  openContactModal(): void {
+  trackCtaClick(origin: string): void {
+    this.analytics.trackEvent('click_cta', { origin, language: this.currentLanguage });
+  }
+
+  openContactModal(origin: string): void {
+    this.trackCtaClick(origin);
     this.isContactModalOpen = true;
     this.hasTriedToSubmitContact = false;
+    this.previouslyFocusedElement = this.document.activeElement as HTMLElement;
+    this.lockBodyScroll();
+
+    this.analytics.trackEvent('open_modal', {
+      modal: 'contact',
+      origin,
+      language: this.currentLanguage,
+      funnel_step: 'lead_intent'
+    });
   }
 
   closeContactModal(): void {
     this.isContactModalOpen = false;
+    this.unlockBodyScroll();
+    this.previouslyFocusedElement?.focus();
   }
 
   submitContactForm(): void {
     this.hasTriedToSubmitContact = true;
     if (!this.isContactFormValid()) {
+      this.analytics.trackEvent('form_validation_error', {
+        form: 'contact',
+        language: this.currentLanguage
+      });
       return;
     }
 
@@ -318,6 +297,12 @@ export class App implements AfterViewInit, OnDestroy {
     const mailtoParams = new URLSearchParams({
       subject,
       body: bodyLines.join('\n')
+    });
+
+    this.analytics.trackEvent('submit_contact', {
+      method: 'mailto',
+      language: this.currentLanguage,
+      funnel_step: 'lead_submit'
     });
 
     this.document.location.href = `mailto:${this.contactEmail}?${mailtoParams.toString()}`;
@@ -350,14 +335,65 @@ export class App implements AfterViewInit, OnDestroy {
     }
   }
 
+  onInteractiveMove(event: MouseEvent): void {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    const element = event.currentTarget as HTMLElement | null;
+    if (!element) {
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    element.style.setProperty('--mx', `${x.toFixed(3)}`);
+    element.style.setProperty('--my', `${y.toFixed(3)}`);
+  }
+
+  onInteractiveLeave(event: MouseEvent): void {
+    const element = event.currentTarget as HTMLElement | null;
+    if (!element) {
+      return;
+    }
+
+    element.style.setProperty('--mx', '0.5');
+    element.style.setProperty('--my', '0.5');
+  }
+
+  private initRevealObserver(): void {
+    this.revealObserver?.disconnect();
+
+    if (!this.revealElements?.length) {
+      return;
+    }
+
+    this.revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+            target.classList.add('is-visible');
+            this.revealObserver?.unobserve(target);
+          }
+        });
+      },
+      {
+        rootMargin: '0px 0px -12% 0px',
+        threshold: 0.2
+      }
+    );
+
+    this.revealElements.forEach((elementRef) => {
+      this.revealObserver?.observe(elementRef.nativeElement);
+    });
+  }
+
   private isContactFormValid(): boolean {
     const { name, email, phone, message } = this.contactForm;
-    return Boolean(
-      name.trim() &&
-      this.isEmailValid(email.trim()) &&
-      phone.trim() &&
-      message.trim()
-    );
+    return Boolean(name.trim() && this.isEmailValid(email.trim()) && phone.trim() && message.trim());
   }
 
   private isEmailValid(email: string): boolean {
@@ -374,24 +410,28 @@ export class App implements AfterViewInit, OnDestroy {
     this.hasTriedToSubmitContact = false;
   }
 
-  private startCounterAnimations(): void {
-    this.metrics.forEach((metric) => {
-      const animationDurationMs = 1300;
-      const startTime = performance.now();
+  private readSavedLanguage(): LanguageCode | null {
+    try {
+      const saved = localStorage.getItem(this.languageStorageKey);
+      return saved === 'pt' || saved === 'en' ? saved : null;
+    } catch {
+      return null;
+    }
+  }
 
-      const tick = (now: number): void => {
-        const progress = Math.min((now - startTime) / animationDurationMs, 1);
-        const easedProgress = 1 - Math.pow(1 - progress, 3);
-        this.animatedStats[metric.key] = Math.round(metric.target * easedProgress);
+  private saveLanguagePreference(language: LanguageCode): void {
+    try {
+      localStorage.setItem(this.languageStorageKey, language);
+    } catch {
+      // Storage can be unavailable in private browsing or restricted environments.
+    }
+  }
 
-        if (progress < 1) {
-          const frameId = requestAnimationFrame(tick);
-          this.animationFrameIds.push(frameId);
-        }
-      };
+  private lockBodyScroll(): void {
+    this.document.body.style.overflow = 'hidden';
+  }
 
-      const frameId = requestAnimationFrame(tick);
-      this.animationFrameIds.push(frameId);
-    });
+  private unlockBodyScroll(): void {
+    this.document.body.style.overflow = '';
   }
 }

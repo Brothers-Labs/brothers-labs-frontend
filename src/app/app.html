@@ -13,7 +13,7 @@
       </nav>
 
       <div class="header-actions">
-        <button mat-stroked-button class="contact-btn" (click)="scrollToSection('contato')">
+        <button mat-stroked-button class="contact-btn" (click)="openContactModal('header_contact')">
           {{ 'header.contactSpecialists' | translate }}
         </button>
 
@@ -50,25 +50,36 @@
       </button>
     }
 
+    <button mat-menu-item (click)="openContactModal('mobile_menu')">{{ 'cta.button' | translate }}</button>
     <button mat-menu-item (click)="setLanguage('pt')">{{ 'common.lang.pt' | translate }}</button>
     <button mat-menu-item (click)="setLanguage('en')">{{ 'common.lang.en' | translate }}</button>
   </mat-menu>
 
   <main>
-    <section id="hero" class="hero section-shell" [attr.aria-label]="'a11y.heroSection' | translate">
-      <div class="hero-content">
+    <section id="hero" class="hero section-shell reveal" #revealEl [attr.aria-label]="'a11y.heroSection' | translate">
+      <div class="hero-content reveal" #revealEl>
         <p class="eyebrow">{{ 'hero.eyebrow' | translate }}</p>
         <h1>{{ 'hero.title' | translate }}</h1>
         <p class="hero-description">{{ 'hero.description' | translate }}</p>
 
         <div class="hero-actions">
-          <button mat-flat-button class="btn-primary" (click)="scrollToSection('contato')">{{ 'hero.ctaPrimary' | translate }}</button>
+          <button mat-flat-button class="btn-primary" (click)="openContactModal('hero_primary')">{{ 'hero.ctaPrimary' | translate }}</button>
           <button mat-stroked-button class="btn-secondary" (click)="scrollToSection('servicos')">{{ 'hero.ctaSecondary' | translate }}</button>
         </div>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <img class="hero-image" src="brothers-01.png" alt="" loading="eager" decoding="async">
+      <div
+        class="hero-visual interactive-tilt reveal"
+        #revealEl
+        aria-hidden="true"
+        (mousemove)="onInteractiveMove($event)"
+        (mouseleave)="onInteractiveLeave($event)"
+      >
+        <picture class="hero-image-wrap">
+          <source srcset="brothers-01.avif" type="image/avif">
+          <source srcset="brothers-01.webp" type="image/webp">
+          <img class="hero-image" src="brothers-01.png" alt="" loading="eager" fetchpriority="high" decoding="async">
+        </picture>
         <div class="aurora"></div>
         <div class="grid-orb"></div>
         <div class="floating-card card-a">
@@ -83,26 +94,35 @@
     </section>
 
     <section id="sobre" class="about section-shell" aria-labelledby="about-title">
-      <div class="section-heading">
+      <div class="section-heading reveal" #revealEl>
         <p class="section-kicker">{{ 'about.kicker' | translate }}</p>
         <h2 id="about-title">{{ 'about.title' | translate }}</h2>
       </div>
 
       <div class="about-layout">
-        <p>{{ 'about.description' | translate }}</p>
+        <p class="reveal" #revealEl>{{ 'about.description' | translate }}</p>
 
-        <figure class="about-media">
-          <img
-            src="brothers-02.png"
-            [attr.alt]="'about.imageAlt' | translate"
-            loading="lazy"
-            decoding="async"
-          >
+        <figure
+          class="about-media interactive-tilt reveal"
+          #revealEl
+          (mousemove)="onInteractiveMove($event)"
+          (mouseleave)="onInteractiveLeave($event)"
+        >
+          <picture>
+            <source srcset="brothers-02.avif" type="image/avif">
+            <source srcset="brothers-02.webp" type="image/webp">
+            <img
+              src="brothers-02.png"
+              [attr.alt]="'about.imageAlt' | translate"
+              loading="lazy"
+              decoding="async"
+            >
+          </picture>
         </figure>
 
         <div class="highlight-grid">
           @for (item of highlights; track item.titleKey) {
-            <article class="glass-card">
+            <article class="glass-card reveal" #revealEl>
               <mat-icon>{{ item.icon }}</mat-icon>
               <h3>{{ item.titleKey | translate }}</h3>
               <p>{{ item.descriptionKey | translate }}</p>
@@ -113,14 +133,14 @@
     </section>
 
     <section id="servicos" class="services section-shell" aria-labelledby="services-title">
-      <div class="section-heading">
+      <div class="section-heading reveal" #revealEl>
         <p class="section-kicker">{{ 'services.kicker' | translate }}</p>
         <h2 id="services-title">{{ 'services.title' | translate }}</h2>
       </div>
 
       <div class="service-grid">
         @for (service of services; track service.titleKey) {
-          <article class="service-card">
+          <article class="service-card reveal" #revealEl>
             <div class="icon-wrap">
               <mat-icon>{{ service.icon }}</mat-icon>
             </div>
@@ -132,23 +152,32 @@
     </section>
 
     <section id="diferenciais" class="differentials section-shell" aria-labelledby="differentials-title">
-      <div class="section-heading">
+      <div class="section-heading reveal" #revealEl>
         <p class="section-kicker">{{ 'differentials.kicker' | translate }}</p>
         <h2 id="differentials-title">{{ 'differentials.title' | translate }}</h2>
       </div>
 
-      <figure class="differentials-media">
-        <img
-          src="brothers-03.png"
-          [attr.alt]="'differentials.imageAlt' | translate"
-          loading="lazy"
-          decoding="async"
-        >
+      <figure
+        class="differentials-media interactive-tilt reveal"
+        #revealEl
+        (mousemove)="onInteractiveMove($event)"
+        (mouseleave)="onInteractiveLeave($event)"
+      >
+        <picture>
+          <source srcset="brothers-03.avif" type="image/avif">
+          <source srcset="brothers-03.webp" type="image/webp">
+          <img
+            src="brothers-03.png"
+            [attr.alt]="'differentials.imageAlt' | translate"
+            loading="lazy"
+            decoding="async"
+          >
+        </picture>
       </figure>
 
       <div class="differential-grid">
         @for (item of differentiators; track item.titleKey) {
-          <article class="differential-item">
+          <article class="differential-item reveal" #revealEl>
             <h3>{{ item.titleKey | translate }}</h3>
             <p>{{ item.descriptionKey | translate }}</p>
           </article>
@@ -156,34 +185,15 @@
       </div>
     </section>
 
-    <!--
-    <section #metricsSection class="metrics section-shell" aria-labelledby="metrics-title">
-      <div class="section-heading">
-        <p class="section-kicker">{{ 'metrics.kicker' | translate }}</p>
-        <h2 id="metrics-title">{{ 'metrics.title' | translate }}</h2>
-      </div>
-
-      <div class="metric-grid">
-        @for (metric of metrics; track metric.key) {
-          <article class="metric-card">
-            <p class="metric-value">{{ animatedStats[metric.key] }}{{ metric.suffix }}</p>
-            <h3>{{ metric.labelKey | translate }}</h3>
-            <p>{{ metric.descriptionKey | translate }}</p>
-          </article>
-        }
-      </div>
-    </section>
-    -->
-
     <section id="tecnologias" class="technologies section-shell" aria-labelledby="tech-title">
-      <div class="section-heading">
+      <div class="section-heading reveal" #revealEl>
         <p class="section-kicker">{{ 'technologies.kicker' | translate }}</p>
         <h2 id="tech-title">{{ 'technologies.title' | translate }}</h2>
       </div>
 
       <div class="tech-badges" role="list" [attr.aria-label]="'a11y.techStack' | translate">
         @for (tech of technologies; track tech.nameKey) {
-          <article class="tech-badge" role="listitem">
+          <article class="tech-badge reveal" #revealEl role="listitem">
             <span class="tech-name">{{ tech.nameKey | translate }}</span>
             <span class="tech-category">{{ tech.categoryKey | translate }}</span>
           </article>
@@ -192,28 +202,32 @@
     </section>
 
     <section id="contato" class="cta section-shell" aria-labelledby="cta-title">
-      <div class="cta-panel">
-        <img
-          class="cta-image"
-          src="brothers-04.png"
-          [attr.alt]="'cta.imageAlt' | translate"
-          loading="lazy"
-          decoding="async"
-        >
+      <div
+        class="cta-panel interactive-tilt reveal"
+        #revealEl
+        (mousemove)="onInteractiveMove($event)"
+        (mouseleave)="onInteractiveLeave($event)"
+      >
+        <picture class="cta-image-wrap">
+          <source srcset="brothers-04.avif" type="image/avif">
+          <source srcset="brothers-04.webp" type="image/webp">
+          <img class="cta-image" src="brothers-04.png" [attr.alt]="'cta.imageAlt' | translate" loading="lazy" decoding="async">
+        </picture>
+
         <p class="section-kicker">{{ 'cta.kicker' | translate }}</p>
         <h2 id="cta-title">{{ 'cta.title' | translate }}</h2>
         <p>{{ 'cta.description' | translate }}</p>
-        <button mat-flat-button class="btn-primary" (click)="openContactModal()">{{ 'cta.button' | translate }}</button>
+        <button mat-flat-button class="btn-primary" (click)="openContactModal('cta_section')">{{ 'cta.button' | translate }}</button>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="section-shell footer-content">
+    <div class="section-shell footer-content reveal" #revealEl>
       <div>
         <h3>{{ companyName }}</h3>
         <p>{{ 'footer.description' | translate }}</p>
-        <a class="footer-whatsapp" [href]="whatsappUrl" target="_blank" rel="noopener">
+        <a class="footer-whatsapp" [href]="whatsappUrl" target="_blank" rel="noopener" (click)="trackCtaClick('footer_whatsapp')">
           {{ 'footer.whatsappLabel' | translate }}: +55 47 99771-6565
         </a>
       </div>
@@ -226,7 +240,7 @@
 
       <div class="footer-social" [attr.aria-label]="'a11y.socialLinks' | translate">
         <!-- <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a> -->
-        <a [href]="githubProfileUrl" target="_blank" rel="noopener">GitHub</a>
+        <a [href]="githubProfileUrl" target="_blank" rel="noopener" (click)="trackCtaClick('footer_github')">GitHub</a>
         <!-- <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a> -->
       </div>
     </div>
@@ -237,14 +251,17 @@
 @if (isContactModalOpen) {
   <div class="contact-modal-overlay" role="presentation" (click)="closeContactModal()">
     <section
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
       class="contact-modal"
       role="dialog"
       aria-modal="true"
-      [attr.aria-label]="'contactModal.title' | translate"
+      aria-labelledby="contact-modal-title"
+      aria-describedby="contact-modal-subtitle"
       (click)="$event.stopPropagation()"
     >
       <div class="contact-modal-header">
-        <h3>{{ 'contactModal.title' | translate }}</h3>
+        <h3 id="contact-modal-title">{{ 'contactModal.title' | translate }}</h3>
         <button
           type="button"
           class="contact-modal-close"
@@ -255,7 +272,7 @@
         </button>
       </div>
 
-      <p class="contact-modal-subtitle">{{ 'contactModal.subtitle' | translate }}</p>
+      <p id="contact-modal-subtitle" class="contact-modal-subtitle">{{ 'contactModal.subtitle' | translate }}</p>
 
       <form class="contact-form" (ngSubmit)="submitContactForm()">
         <label class="contact-label" for="contact-name">{{ 'contactModal.nameLabel' | translate }}</label>
