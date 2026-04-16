@@ -47,28 +47,102 @@
         </div>
 
         <button
-          mat-icon-button
+          type="button"
           class="mobile-menu-btn"
-          [matMenuTriggerFor]="mobileMenu"
+          [class.mobile-menu-btn-active]="isMobileMenuOpen"
+          (click)="openMobileMenu()"
           [attr.aria-label]="'a11y.openMenu' | translate"
+          [attr.aria-expanded]="isMobileMenuOpen"
+          aria-haspopup="dialog"
         >
-          <mat-icon>menu</mat-icon>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
         </button>
       </div>
     </mat-toolbar>
   </header>
 
-  <mat-menu #mobileMenu="matMenu">
-    @for (item of navItems; track item.id) {
-      <button mat-menu-item (click)="scrollToSection(item.id)">
-        {{ item.labelKey | translate }}
-      </button>
-    }
+  @if (isMobileMenuOpen) {
+    <div class="mobile-nav-overlay" role="presentation" (click)="closeMobileMenu()">
+      <aside
+        cdkTrapFocus
+        [cdkTrapFocusAutoCapture]="true"
+        class="mobile-nav-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mobile-menu-title"
+        aria-describedby="mobile-menu-description"
+        (click)="$event.stopPropagation()"
+      >
+        <div class="mobile-nav-topbar">
+          <a class="brand" href="#hero" (click)="scrollToSection('hero', $event)">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <span class="brand-text">{{ companyName }}</span>
+          </a>
 
-    <button mat-menu-item (click)="openContactModal('mobile_menu')">{{ 'cta.button' | translate }}</button>
-    <button mat-menu-item (click)="setLanguage('pt')">{{ 'common.lang.pt' | translate }}</button>
-    <button mat-menu-item (click)="setLanguage('en')">{{ 'common.lang.en' | translate }}</button>
-  </mat-menu>
+          <button
+            type="button"
+            class="mobile-nav-close"
+            (click)="closeMobileMenu()"
+            [attr.aria-label]="'a11y.closeMenu' | translate"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
+        <div class="mobile-nav-hero">
+          <h2 class="mobile-nav-kicker">{{ 'mobileMenu.kicker' | translate }}</h2>
+          <!--h2 id="mobile-menu-title">{{ 'mobileMenu.title' | translate }}</h2>
+          <p id="mobile-menu-description">{{ 'mobileMenu.description' | translate }}</p-->
+        </div>
+
+        <nav class="mobile-nav-links" [attr.aria-label]="'a11y.pageMenu' | translate">
+          @for (item of navItems; track item.id) {
+            <button type="button" class="mobile-nav-link" (click)="navigateFromMobileMenu(item.id)">
+              <span class="mobile-nav-index">0{{ $index + 1 }}</span>
+              <span class="mobile-nav-copy">
+                <strong>{{ item.labelKey | translate }}</strong>
+              </span>
+              <mat-icon aria-hidden="true">north_east</mat-icon>
+            </button>
+          }
+        </nav>
+
+        <div class="mobile-nav-footer">
+          <button type="button" class="mobile-nav-cta" (click)="openContactFromMobileMenu()">
+            {{ 'cta.button' | translate }}
+          </button>
+
+          <div class="mobile-nav-meta">
+            <div class="lang-switch mobile-lang-switch" [attr.aria-label]="'a11y.languageSelector' | translate">
+              @for (lang of availableLanguages; track lang) {
+                <button
+                  type="button"
+                  class="lang-btn"
+                  [class.active]="currentLanguage === lang"
+                  (click)="setLanguage(lang)"
+                  [attr.aria-label]="('a11y.switchLanguageTo' | translate) + ' ' + (('common.lang.' + lang) | translate)"
+                >
+                  {{ ('common.lang.' + lang) | translate }}
+                </button>
+              }
+            </div>
+
+            <a
+              class="mobile-nav-whatsapp"
+              [href]="whatsappUrl"
+              target="_blank"
+              rel="noopener"
+              (click)="trackCtaClick('mobile_menu_whatsapp')"
+            >
+              {{ 'footer.whatsappLabel' | translate }}
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  }
 
   <main>
     <section id="hero" class="hero section-shell reveal" #revealEl [attr.aria-label]="'a11y.heroSection' | translate">

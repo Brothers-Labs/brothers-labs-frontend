@@ -11,6 +11,7 @@
     "languageSelector": "Language selector",
     "switchLanguageTo": "Switch language to",
     "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "heroSection": "Brothers Labs introduction",
     "techStack": "Technology stack",
     "institutionalLinks": "Institutional links",
@@ -25,6 +26,12 @@
   },
   "header": {
     "contactSpecialists": "Talk to specialists"
+  },
+  "mobileMenu": {
+    "kicker": "Menu",
+    "title": "Explore Brothers Labs on mobile with clarity and a conversion-first flow.",
+    "description": "Move through the core sections, switch languages, and contact the team without losing context.",
+    "linkHint": "Open section"
   },
   "hero": {
     "eyebrow": "Engineering the next digital frontier",

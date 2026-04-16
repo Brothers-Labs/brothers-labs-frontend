@@ -11,6 +11,7 @@
     "languageSelector": "Seletor de idioma",
     "switchLanguageTo": "Trocar idioma para",
     "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
     "heroSection": "Apresentação Brothers Labs",
     "techStack": "Stack tecnológica",
     "institutionalLinks": "Links institucionais",
@@ -25,6 +26,12 @@
   },
   "header": {
     "contactSpecialists": "Falar com especialistas"
+  },
+  "mobileMenu": {
+    "kicker": "Menu",
+    "title": "Explore a Brothers Labs pelo celular com clareza e foco em conversão.",
+    "description": "Navegue pelas principais seções, troque o idioma e fale com o time sem perder contexto.",
+    "linkHint": "Abrir seção"
   },
   "hero": {
     "eyebrow": "Engineering the next digital frontier",

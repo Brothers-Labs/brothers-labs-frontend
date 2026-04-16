@@ -13,7 +13,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AnalyticsService } from './core/analytics.service';
@@ -71,7 +70,6 @@ interface ParticleItem {
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
     TranslateModule
   ],
   templateUrl: './app.html',
@@ -207,6 +205,7 @@ export class App implements AfterViewInit, OnDestroy {
 
   isHeaderScrolled = false;
   isContactModalOpen = false;
+  isMobileMenuOpen = false;
   hasTriedToSubmitContact = false;
   isUltraPremiumDesktop = false;
   currentLanguage: LanguageCode = 'pt';
@@ -223,7 +222,8 @@ export class App implements AfterViewInit, OnDestroy {
   private readonly translate = inject(TranslateService);
   private readonly analytics = inject(AnalyticsService);
   private revealObserver?: IntersectionObserver;
-  private previouslyFocusedElement: HTMLElement | null = null;
+  private previousContactFocusElement: HTMLElement | null = null;
+  private previousMobileMenuFocusElement: HTMLElement | null = null;
 
   constructor() {
     this.translate.addLangs(this.availableLanguages as string[]);
@@ -253,6 +253,11 @@ export class App implements AfterViewInit, OnDestroy {
   onEscape(): void {
     if (this.isContactModalOpen) {
       this.closeContactModal();
+      return;
+    }
+
+    if (this.isMobileMenuOpen) {
+      this.closeMobileMenu();
     }
   }
 
@@ -266,11 +271,14 @@ export class App implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.revealObserver?.disconnect();
-    this.unlockBodyScroll();
+    this.document.body.style.overflow = '';
   }
 
   setLanguage(language: LanguageCode): void {
     if (this.currentLanguage === language) {
+      if (this.isMobileMenuOpen) {
+        this.closeMobileMenu();
+      }
       return;
     }
 
@@ -282,6 +290,10 @@ export class App implements AfterViewInit, OnDestroy {
     this.analytics.trackEvent('language_change', {
       language
     });
+
+    if (this.isMobileMenuOpen) {
+      this.closeMobileMenu();
+    }
   }
 
   trackCtaClick(origin: string): void {
@@ -292,8 +304,8 @@ export class App implements AfterViewInit, OnDestroy {
     this.trackCtaClick(origin);
     this.isContactModalOpen = true;
     this.hasTriedToSubmitContact = false;
-    this.previouslyFocusedElement = this.document.activeElement as HTMLElement;
-    this.lockBodyScroll();
+    this.previousContactFocusElement = this.document.activeElement as HTMLElement;
+    this.syncBodyScrollState();
 
     this.analytics.trackEvent('open_modal', {
       modal: 'contact',
@@ -305,8 +317,8 @@ export class App implements AfterViewInit, OnDestroy {
 
   closeContactModal(): void {
     this.isContactModalOpen = false;
-    this.unlockBodyScroll();
-    this.previouslyFocusedElement?.focus();
+    this.syncBodyScrollState();
+    this.previousContactFocusElement?.focus();
   }
 
   submitContactForm(): void {
@@ -364,6 +376,10 @@ export class App implements AfterViewInit, OnDestroy {
 
   scrollToSection(sectionId: string, event?: Event): void {
     event?.preventDefault();
+    if (this.isMobileMenuOpen) {
+      this.closeMobileMenu();
+    }
+
     const section = this.document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -400,6 +416,35 @@ export class App implements AfterViewInit, OnDestroy {
 
   getColumnStagger(index: number, columns: number): number {
     return index % columns;
+  }
+
+  openMobileMenu(): void {
+    if (this.isMobileMenuOpen) {
+      return;
+    }
+
+    this.previousMobileMenuFocusElement = this.document.activeElement as HTMLElement;
+    this.isMobileMenuOpen = true;
+    this.syncBodyScrollState();
+  }
+
+  closeMobileMenu(): void {
+    if (!this.isMobileMenuOpen) {
+      return;
+    }
+
+    this.isMobileMenuOpen = false;
+    this.syncBodyScrollState();
+    this.previousMobileMenuFocusElement?.focus();
+  }
+
+  navigateFromMobileMenu(sectionId: string): void {
+    this.scrollToSection(sectionId);
+  }
+
+  openContactFromMobileMenu(): void {
+    this.closeMobileMenu();
+    this.openContactModal('mobile_menu');
   }
 
   private initRevealObserver(): void {
@@ -466,12 +511,8 @@ export class App implements AfterViewInit, OnDestroy {
     }
   }
 
-  private lockBodyScroll(): void {
-    this.document.body.style.overflow = 'hidden';
-  }
-
-  private unlockBodyScroll(): void {
-    this.document.body.style.overflow = '';
+  private syncBodyScrollState(): void {
+    this.document.body.style.overflow = this.isContactModalOpen || this.isMobileMenuOpen ? 'hidden' : '';
   }
 
   private updateUltraPremiumMode(): void {

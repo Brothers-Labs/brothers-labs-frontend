@@ -274,3 +274,9 @@ Brothers Labs
 - Site: `https://brotherslabs.com` (placeholder)
 - Email: `contato@brotherslabs.com` (placeholder)
 - LinkedIn: `https://www.linkedin.com/company/brothers-labs` (placeholder)
+
+Add a DNS TXT record
+
+_github-pages-challenge-Brothers-Labs
+
+30f66c484af3b06e45e7a70c64da32
